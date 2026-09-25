@@ -1,115 +1,159 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
 
-const services = [
+const serviceGroups = [
   {
-    id: 'web',
     number: '01',
-    title: 'Web Development',
-    tagline: 'High-performance websites that convert.',
-    desc: 'We build scalable, fast-loading web platforms engineered for business impact. From corporate websites to complex e-commerce systems and conversion-optimised landing pages.',
-    features: [
-      'Business & corporate websites',
-      'E-commerce platforms (Shopify, custom)',
-      'Landing pages optimised for conversion',
-      'Progressive Web Apps (PWA)',
-      'CMS integration (WordPress, Contentful)',
+    title: 'Consulting & Strategy',
+    tagline: 'Know what to do before you invest.',
+    description:
+      'Strategic guidance for businesses making important decisions around growth, technology, transformation and digital execution.',
+    services: [
+      'Business Strategy',
+      'Growth Strategy',
+      'IT & Technology Strategy',
+      'Digital Transformation Consulting',
+      'Technology Roadmaps',
+      'Solution Architecture',
+      'AI Consulting & AI Readiness',
+      'Process Improvement',
+      'Product & Digital Consulting',
     ],
-    cta: 'Book Web Project',
-    color: 'bg-primary/8',
-    accent: 'text-primary',
-    border: 'border-primary/20',
   },
   {
-    id: 'android',
     number: '02',
-    title: 'Android Development',
-    tagline: 'Mobile apps users actually keep.',
-    desc: 'Custom Android applications built for performance, intuitive UX, and long-term engagement. We handle the full product cycle from wireframe to Play Store launch.',
-    features: [
-      'Native Android development (Kotlin)',
-      'Cross-platform apps (React Native, Flutter)',
-      'Play Store submission & optimisation',
-      'API integration & backend connectivity',
-      'Ongoing maintenance & feature updates',
+    title: 'Digital Growth & Marketing',
+    tagline: 'Build visibility. Generate demand. Grow.',
+    description:
+      'Digital growth capabilities designed to help businesses become discoverable, build trust and convert attention into opportunities.',
+    services: [
+      'SEO & Technical SEO',
+      'Local SEO',
+      'Content SEO',
+      'Google Ads',
+      'Meta Ads',
+      'Performance Marketing',
+      'Social Media Management',
+      'Content Marketing',
+      'Video & Creative Content',
+      'Brand & Digital Creative',
     ],
-    cta: 'Start App Project',
-    color: 'bg-accent/8',
-    accent: 'text-accent',
-    border: 'border-accent/20',
   },
   {
-    id: 'marketing',
     number: '03',
-    title: 'Digital Marketing & SEO',
-    tagline: 'Traffic that converts, rankings that last.',
-    desc: 'Data-driven marketing strategies across SEO, paid media, content, and social. We build sustainable growth engines, not short-term spikes.',
-    features: [
-      'Technical SEO & on-page optimisation',
-      'Google Ads & Meta Ads management',
-      'Content strategy & creation',
-      'Social media management',
-      'Monthly analytics reporting',
+    title: 'Web & Software Development',
+    tagline: 'Turn ideas and workflows into products.',
+    description:
+      'Modern web and software solutions built around business requirements, customer experience and long-term maintainability.',
+    services: [
+      'Corporate Websites',
+      'E-commerce Development',
+      'Web Applications',
+      'Custom Software',
+      'SaaS Development',
+      'Progressive Web Apps',
+      'API Development',
+      'Third-party Integrations',
+      'CMS Development',
+      'Legacy Modernization',
     ],
-    cta: 'Start Marketing Plan',
-    color: 'bg-green-500/8',
-    accent: 'text-green-600',
-    border: 'border-green-500/20',
   },
   {
-    id: 'cloud',
     number: '04',
-    title: 'Cloud Optimization',
-    tagline: 'Cut costs. Improve reliability.',
-    desc: 'We audit, architect, and optimise your cloud infrastructure on AWS, GCP, or Azure — reducing costs by up to 40% while improving uptime and security posture.',
-    features: [
-      'Cloud cost audit & savings analysis',
-      'AWS / GCP / Azure architecture review',
-      'Infrastructure-as-Code (Terraform)',
-      'Auto-scaling & load balancing setup',
-      'Security hardening & compliance',
+    title: 'Mobile App Development',
+    tagline: 'Products designed for people on the move.',
+    description:
+      'Mobile applications from product discovery and UX to development, integrations, deployment and ongoing improvements.',
+    services: [
+      'Android Development',
+      'iOS Development',
+      'React Native',
+      'Flutter',
+      'Cross-platform Applications',
+      'Mobile UI/UX',
+      'Backend & API Integration',
+      'App Store Deployment',
+      'Play Store Deployment',
+      'App Maintenance',
     ],
-    cta: 'Consult Now',
-    color: 'bg-blue-500/8',
-    accent: 'text-blue-600',
-    border: 'border-blue-500/20',
   },
   {
-    id: 'staffing',
     number: '05',
-    title: 'IT Staffing & Consulting',
-    tagline: 'The right talent, on demand.',
-    desc: 'Skilled professionals placed within your team or projects — from individual developers to full delivery squads. Strategic IT advisory for CTO-level decisions.',
-    features: [
-      'Contract & permanent IT placement',
-      'Dedicated development teams',
-      'CTO-as-a-Service advisory',
-      'Technology roadmap consulting',
-      'Vendor selection & management',
+    title: 'AI, Data & Automation',
+    tagline: 'Make technology work smarter.',
+    description:
+      'Practical AI and automation solutions focused on useful business applications rather than technology for its own sake.',
+    services: [
+      'Generative AI Solutions',
+      'AI Applications',
+      'AI Assistants',
+      'AI Automation',
+      'Machine Learning',
+      'AI Strategy',
+      'AI Use-case Discovery',
+      'Workflow Automation',
+      'Data Strategy',
+      'Analytics & Dashboards',
     ],
-    cta: 'Hire Talent / Book Consultation',
-    color: 'bg-purple-500/8',
-    accent: 'text-purple-600',
-    border: 'border-purple-500/20',
   },
   {
-    id: 'software',
     number: '06',
-    title: 'Custom Software Development',
-    tagline: 'Built for your exact workflow.',
-    desc: 'End-to-end bespoke software development — from internal tools and SaaS platforms to complex enterprise systems. We own the full lifecycle.',
-    features: [
-      'Requirements analysis & system design',
-      'Full-stack development (React, Node, Python)',
-      'Database architecture & optimisation',
-      'Third-party API & system integrations',
-      'QA, testing, and deployment pipelines',
+    title: 'Cloud, DevOps & Cybersecurity',
+    tagline: 'Build infrastructure you can rely on.',
+    description:
+      'Cloud and infrastructure capabilities covering architecture, deployment, optimization, security and operational reliability.',
+    services: [
+      'Cloud Strategy',
+      'AWS Solutions',
+      'Microsoft Azure',
+      'Google Cloud',
+      'Cloud Migration',
+      'DevOps & CI/CD',
+      'Infrastructure Automation',
+      'Cloud Optimization',
+      'Application Security',
+      'Cloud Security',
     ],
-    cta: 'Start Development',
-    color: 'bg-orange-500/8',
-    accent: 'text-orange-600',
-    border: 'border-orange-500/20',
+  },
+  {
+    number: '07',
+    title: 'Enterprise Technology',
+    tagline: 'Connect complex systems to business needs.',
+    description:
+      'Enterprise technology advisory, implementation support and integration capabilities for growing and established organizations.',
+    services: [
+      'SAP Consulting',
+      'Salesforce Consulting',
+      'CRM Solutions',
+      'ERP Solutions',
+      'Enterprise Integrations',
+      'Systems Integration',
+      'Enterprise Architecture',
+      'Technology Modernization',
+      'Business Process Digitization',
+      'Enterprise Application Strategy',
+    ],
+  },
+  {
+    number: '08',
+    title: 'IT Staffing & Delivery',
+    tagline: 'Add the people you need to execute.',
+    description:
+      'Flexible technology talent and delivery models for businesses that need additional capability without building everything internally.',
+    services: [
+      'IT Staffing',
+      'Contract Resources',
+      'Dedicated Developers',
+      'Dedicated Teams',
+      'Project-based Teams',
+      'Technical Recruitment',
+      'Developers & Engineers',
+      'Designers & UX Talent',
+      'QA & Testing Resources',
+      'Technology Advisory',
+    ],
   },
 ];
 
@@ -120,87 +164,145 @@ export default function ServicesGrid() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('revealed');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
         });
       },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px',
+      }
     );
-    sectionRef?.current?.querySelectorAll('.reveal-hidden')?.forEach((el) => observer?.observe(el));
-    return () => observer?.disconnect();
+
+    sectionRef.current
+      ?.querySelectorAll('.reveal-hidden')
+      ?.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Row 1: [col-1: Web Dev] [col-2: Android] [col-3: Digital Marketing] */}
-        {/* Row 2: [col-1: Cloud] [col-2: IT Staffing] [col-3: Custom Software] */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services?.map((service, i) => (
-            <div
-              key={service?.id}
-              className={`reveal-hidden stagger-${Math.min(i + 1, 6)} group bg-card rounded-3xl border border-border shadow-soft overflow-hidden hover:shadow-hover hover:-translate-y-2 transition-all duration-500`}
-            >
-              {/* Top accent bar */}
-              <div className={`h-1 w-full ${service?.color?.replace('/8', '')} opacity-60`} style={{ background: `linear-gradient(90deg, var(--primary), var(--accent))` }} />
+    <section
+      id="capabilities"
+      ref={sectionRef}
+      className="relative overflow-hidden bg-background py-24 md:py-28"
+    >
+      {/* Background atmosphere */}
+      <div className="pointer-events-none absolute left-1/2 top-20 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
 
-              <div className="p-8">
-                {/* Number + Title */}
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <span className={`text-xs font-bold uppercase tracking-[0.2em] ${service?.accent} mb-2 block`}>
-                      {service?.number}
-                    </span>
-                    <h2 className="text-2xl font-extrabold text-foreground leading-tight">{service?.title}</h2>
-                  </div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-semibold ${service?.color} ${service?.accent} border ${service?.border}`}>
-                    Service
-                  </div>
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        {/* Section heading */}
+        <div className="reveal-hidden mb-14 max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
+            What We Do
+          </span>
+
+          <h2 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+            One partner for{' '}
+            <span className="text-gradient">
+              technology, growth and change.
+            </span>
+          </h2>
+
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            Choose the capability you need today, combine multiple
+            capabilities for a larger initiative, or engage us from strategy
+            through execution.
+          </p>
+        </div>
+
+        {/* Service cards */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          {serviceGroups.map((group, index) => (
+            <article
+              key={group.number}
+              className={`reveal-hidden stagger-${Math.min(
+                index + 1,
+                6
+              )} group relative overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft transition-all duration-500 hover:-translate-y-2 hover:border-primary/30 hover:shadow-hover md:p-8`}
+            >
+              {/* Animated top border */}
+              <div className="absolute left-0 top-0 h-px w-full overflow-hidden bg-border">
+                <div className="h-full w-1/3 bg-gradient-to-r from-primary to-accent transition-all duration-700 group-hover:w-full" />
+              </div>
+
+              {/* Header */}
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <span className="text-xs font-extrabold tracking-[0.2em] text-primary">
+                    {group.number}
+                  </span>
+
+                  <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-foreground">
+                    {group.title}
+                  </h3>
                 </div>
 
-                {/* Tagline */}
-                <p className={`text-base font-semibold ${service?.accent} mb-3`}>{service?.tagline}</p>
-
-                {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">{service?.desc}</p>
-
-                {/* Feature list */}
-                <ul className="space-y-2 mb-8">
-                  {service?.features?.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2.5 text-sm text-foreground/80">
-                      <svg className={`w-4 h-4 flex-shrink-0 mt-0.5 ${service?.accent}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTAs — Big-4 style dual buttons */}
-                <div className="flex flex-col gap-2 pt-6 border-t border-border">
-                  <a
-                    href="https://calendly.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary w-full py-3 rounded-xl text-sm font-semibold text-center inline-flex items-center justify-center gap-2 group/btn"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Book Consultation
-                  </a>
-                  <a
-                    href="mailto:lkgco.business@gmail.com?subject=Proposal Request: ${service.title}"
-                    className="btn-outline w-full py-3 rounded-xl text-sm font-semibold text-center inline-flex items-center justify-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                    </svg>
-                    Request Proposal
-                  </a>
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-sm font-bold text-primary transition-all duration-500 group-hover:rotate-6 group-hover:scale-110">
+                  {group.number}
                 </div>
               </div>
-            </div>
+
+              {/* Tagline */}
+              <p className="mt-4 text-sm font-semibold text-primary">
+                {group.tagline}
+              </p>
+
+              {/* Description */}
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {group.description}
+              </p>
+
+              <div className="my-7 h-px bg-border" />
+
+              {/* Services */}
+              <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                {group.services.map((service) => (
+                  <div
+                    key={service}
+                    className="flex items-start gap-2 text-sm text-foreground/80 transition-transform duration-300 group-hover:translate-x-0.5"
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span>{service}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Link
+                href={`/contact?service=${encodeURIComponent(group.title)}`}
+                className="mt-8 inline-flex items-center text-sm font-bold text-primary transition-all duration-300 hover:gap-3"
+              >
+                Discuss this capability
+                <span className="ml-2">→</span>
+              </Link>
+            </article>
           ))}
+        </div>
+
+        {/* Bottom conversion block */}
+        <div className="reveal-hidden mt-10 rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/5 via-card to-accent/5 p-6 md:p-8">
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-sm font-bold text-foreground">
+                Need something more specific?
+              </p>
+
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Tell us what you are trying to build, improve or solve. We can
+                scope the right combination of capabilities for your business.
+              </p>
+            </div>
+
+            <Link
+              href="/contact"
+              className="btn-outline inline-flex shrink-0 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold"
+            >
+              Talk to LKG & Company
+              <span className="ml-2">→</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
