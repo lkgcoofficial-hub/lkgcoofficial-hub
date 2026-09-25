@@ -1,147 +1,333 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
-const services = [
+const capabilities = [
   {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-    title: 'Web Development',
-    desc: 'High-performance, scalable websites built for business impact — from corporate platforms to e-commerce.',
-    tag: 'Core Service',
+    number: '01',
+    title: 'Strategy',
+    label: 'Direction & clarity',
+    description:
+      'Turn business challenges and opportunities into focused priorities, practical roadmaps, and clear paths forward.',
+    items: ['Business Strategy', 'Digital Strategy', 'Product & Growth'],
+    accent: 'purple',
   },
   {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3" />
-      </svg>
-    ),
-    title: 'Mobile App Development',
-    desc: 'Custom Android apps engineered for performance, usability, and long-term user engagement.',
-    tag: 'Mobile',
+    number: '02',
+    title: 'Technology',
+    label: 'Ideas into reality',
+    description:
+      'Design and build digital experiences, products, and technology foundations that support real business needs.',
+    items: [
+      'Digital Products',
+      'Web & Software',
+      'Technology Solutions',
+    ],
+    accent: 'violet',
   },
   {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-      </svg>
-    ),
-    title: 'Digital Marketing & SEO',
-    desc: 'Data-driven campaigns that drive qualified traffic, improve rankings, and convert visitors into customers.',
-    tag: 'Growth',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
-      </svg>
-    ),
-    title: 'IT Consulting & Staffing',
-    desc: 'Skilled professionals and strategic IT guidance to build, augment, or lead your technical teams.',
-    tag: 'Consulting',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
-      </svg>
-    ),
-    title: 'Cloud Optimization',
-    desc: 'Reduce infrastructure costs by up to 40% while improving reliability, security, and performance.',
-    tag: 'Infrastructure',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-      </svg>
-    ),
-    title: 'Custom Software Development',
-    desc: 'End-to-end bespoke software engineered to your exact business logic, workflow, and scale requirements.',
-    tag: 'Engineering',
+    number: '03',
+    title: 'Transformation',
+    label: 'Change with purpose',
+    description:
+      'Connect people, processes, and technology to help organizations evolve and create lasting business value.',
+    items: [
+      'Digital Transformation',
+      'Process Improvement',
+      'Technology Modernization',
+    ],
+    accent: 'gold',
   },
 ];
 
 export default function ServicesSnapshot() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const element = sectionRef.current;
+
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1 }
     );
-    const elements = sectionRef?.current?.querySelectorAll('.reveal-hidden');
-    elements?.forEach((el) => observer?.observe(el));
-    return () => observer?.disconnect();
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 gradient-bg">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div className="reveal-hidden">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-3 block">What We Do</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold leading-[1.1] tracking-tight text-foreground">
-              Services built for{' '}
-              <span className="text-gradient">real results.</span>
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-[#faf9ff] py-24 sm:py-28 lg:py-36"
+    >
+      {/* Background details */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-56 top-20 h-[500px] w-[500px] rounded-full bg-[#7857c7]/[0.035] blur-3xl"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-56 bottom-0 h-[500px] w-[500px] rounded-full bg-[#c4a15c]/[0.04] blur-3xl"
+      />
+
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        {/* Section heading */}
+        <div
+          className={`grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-24 transition-all duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div>
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-[#c4a15c]" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7655bf]">
+                What we do
+              </span>
+            </div>
+
+            <h2 className="max-w-[600px] text-[clamp(2.8rem,5vw,5.2rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-[#19172b]">
+              Capabilities built
+              <span className="block text-[#7857c7]">
+                around outcomes.
+              </span>
             </h2>
           </div>
-          <div className="reveal-hidden stagger-1">
+
+          <div className="max-w-[700px] lg:pb-1">
+            <p className="text-lg leading-8 text-[#625e70] sm:text-xl sm:leading-9">
+              From defining what matters to building what&apos;s next, our
+              capabilities connect business thinking with practical technology
+              and meaningful transformation.
+            </p>
+
             <Link
               href="/services"
-              className="btn-primary px-6 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2 group whitespace-nowrap"
+              className="group mt-7 inline-flex items-center gap-3 text-sm font-semibold text-[#7050bb]"
             >
-              Explore All Services
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              Explore all capabilities
+
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7857c7]/20 bg-white transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#7857c7]/40">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.75 9H14.25M14.25 9L9.75 4.5M14.25 9L9.75 13.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </Link>
           </div>
         </div>
 
-        {/* Grid */}
-        {/* Row 1: [col-1: Web Dev] [col-2: Mobile App] [col-3: Digital Marketing] */}
-        {/* Row 2: [col-1: IT Consulting] [col-2: Cloud Optimization] [col-3: Custom Software] */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services?.map((service, i) => (
-            <div
-              key={service?.title}
-              className={`reveal-hidden service-card bg-card rounded-3xl p-8 border border-border shadow-soft cursor-pointer stagger-${Math.min(i + 1, 6)}`}
-            >
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-                  {service?.icon}
-                </div>
-                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
-                  {service?.tag}
-                </span>
-              </div>
+        {/* Capability architecture */}
+        <div
+          className={`mt-16 grid gap-5 lg:mt-24 lg:grid-cols-3 transition-all delay-150 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {capabilities.map((capability) => {
+            const isGold = capability.accent === 'gold';
+            const isViolet = capability.accent === 'violet';
 
-              <h3 className="text-lg font-bold text-foreground mb-3">{service?.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">{service?.desc}</p>
-
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1.5 text-primary text-sm font-semibold hover:gap-2.5 transition-all group"
+            return (
+              <article
+                key={capability.number}
+                className="group relative overflow-hidden rounded-[28px] border border-[#19172b]/[0.07] bg-white p-7 shadow-[0_15px_50px_rgba(40,32,65,0.035)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_60px_rgba(40,32,65,0.08)] sm:p-8 lg:p-9"
               >
-                Learn More
-                <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-          ))}
+                {/* Top accent */}
+                <div
+                  className={`absolute left-0 right-0 top-0 h-[2px] ${
+                    isGold
+                      ? 'bg-[#c4a15c]/70'
+                      : isViolet
+                        ? 'bg-[#8c68cf]/70'
+                        : 'bg-[#7857c7]/70'
+                  }`}
+                />
+
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold tracking-[0.16em] text-[#aaa5b4]">
+                    {capability.number}
+                  </span>
+
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full ${
+                      isGold
+                        ? 'bg-[#c4a15c]/10'
+                        : isViolet
+                          ? 'bg-[#8c68cf]/10'
+                          : 'bg-[#7857c7]/10'
+                    }`}
+                  >
+                    {capability.number === '01' && (
+                      <svg
+                        width="19"
+                        height="19"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M5 19V9M12 19V5M19 19V12"
+                          stroke="#7857c7"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    )}
+
+                    {capability.number === '02' && (
+                      <svg
+                        width="19"
+                        height="19"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M8.5 8.5L5 12L8.5 15.5M15.5 8.5L19 12L15.5 15.5M13.5 5L10.5 19"
+                          stroke="#8c68cf"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+
+                    {capability.number === '03' && (
+                      <svg
+                        width="19"
+                        height="19"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M4 12H19M19 12L13.5 6.5M19 12L13.5 17.5"
+                          stroke="#b28d4f"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <div className="mt-10">
+                  <p
+                    className={`text-xs font-semibold uppercase tracking-[0.16em] ${
+                      isGold
+                        ? 'text-[#aa8548]'
+                        : isViolet
+                          ? 'text-[#795cb1]'
+                          : 'text-[#7050bb]'
+                    }`}
+                  >
+                    {capability.label}
+                  </p>
+
+                  <h3 className="mt-2 text-3xl font-semibold tracking-[-0.045em] text-[#211e34] sm:text-4xl">
+                    {capability.title}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p className="mt-5 min-h-[112px] text-sm leading-7 text-[#777285] sm:text-[15px]">
+                  {capability.description}
+                </p>
+
+                {/* Capabilities list */}
+                <div className="mt-7 border-t border-[#19172b]/[0.07] pt-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#aaa5b4]">
+                    Focus areas
+                  </p>
+
+                  <div className="mt-4 space-y-3">
+                    {capability.items.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-3 text-sm text-[#504b5f]"
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                            isGold
+                              ? 'bg-[#c4a15c]'
+                              : isViolet
+                                ? 'bg-[#8c68cf]'
+                                : 'bg-[#7857c7]'
+                          }`}
+                        />
+
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom line */}
+                <div className="mt-8 flex items-center gap-2">
+                  <span
+                    className={`h-px w-8 transition-all duration-500 group-hover:w-14 ${
+                      isGold
+                        ? 'bg-[#c4a15c]/60'
+                        : isViolet
+                          ? 'bg-[#8c68cf]/60'
+                          : 'bg-[#7857c7]/60'
+                    }`}
+                  />
+
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#aaa5b4]">
+                    LKG &amp; Company
+                  </span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Bottom statement */}
+        <div
+          className={`mt-14 flex flex-col gap-6 border-t border-[#19172b]/[0.08] pt-8 sm:flex-row sm:items-center sm:justify-between transition-all delay-300 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <p className="max-w-[700px] text-sm leading-6 text-[#817c8d]">
+            The right solution is rarely just one thing. We connect strategic
+            thinking, technology, and transformation around the outcome that
+            matters.
+          </p>
+
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-[#7857c7]" />
+            <span className="h-2 w-2 rounded-full bg-[#8c68cf]" />
+            <span className="h-2 w-2 rounded-full bg-[#c4a15c]" />
+          </div>
         </div>
       </div>
     </section>
