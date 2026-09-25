@@ -1,73 +1,156 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 export default function CTABanner() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const element = sectionRef.current;
+
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.15 }
     );
-    const elements = sectionRef?.current?.querySelectorAll('.reveal-hidden');
-    elements?.forEach((el) => observer?.observe(el));
-    return () => observer?.disconnect();
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="reveal-hidden relative overflow-hidden rounded-[2.5rem] bg-foreground px-10 py-16 md:py-20 text-center">
-          {/* Decorative blobs */}
-          <div className="absolute top-0 left-0 w-80 h-80 bg-primary/20 rounded-full blur-[80px] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent/15 rounded-full blur-[80px] pointer-events-none translate-x-1/3 translate-y-1/3" />
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-[#19172b] py-24 sm:py-28 lg:py-36"
+    >
+      {/* Background atmosphere */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#7857c7]/[0.08] blur-3xl"
+      />
 
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-sm font-medium text-white/70 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-slow" />
-              Ready to Transform?
-            </span>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 top-[-180px] h-[500px] w-[500px] rounded-full bg-[#c4a15c]/[0.06] blur-3xl"
+      />
 
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-tight mb-6">
-              Let&apos;s build something{' '}
-              <span className="text-accent">extraordinary</span>{' '}
-              together.
-            </h2>
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        <div
+          className={`relative overflow-hidden rounded-[32px] border border-white/[0.08] bg-white/[0.025] px-7 py-14 sm:px-10 sm:py-16 lg:px-16 lg:py-20 transition-all duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {/* Decorative architecture */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-[-100px] top-[-100px] h-72 w-72 rounded-full border border-white/[0.06]"
+          />
 
-            <p className="text-lg text-white/60 leading-relaxed mb-10">
-              Whether you need a new platform, a growth strategy, or a dedicated tech team — LKG &amp; Co. is ready to deliver.
-            </p>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-[-45px] top-[-45px] h-44 w-44 rounded-full border border-[#c4a15c]/20"
+          />
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="https://calendly.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 rounded-full bg-accent text-foreground font-bold text-base hover:bg-accent/90 hover:shadow-gold transition-all duration-300 inline-flex items-center gap-2 group"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Book Free Consultation
-              </a>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-140px] left-[-80px] h-64 w-64 rounded-full border border-[#7857c7]/15"
+          />
+
+          <div className="relative grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-20">
+            {/* Content */}
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="h-px w-10 bg-[#c4a15c]" />
+
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c4a15c]">
+                  Start a conversation
+                </span>
+              </div>
+
+              <h2 className="mt-7 max-w-[900px] text-[clamp(3rem,6vw,6.5rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-white">
+                Ready to turn
+                <span className="block text-[#b9a0df]">
+                  effort into impact?
+                </span>
+              </h2>
+
+              <p className="mt-7 max-w-[700px] text-base leading-7 text-white/55 sm:text-lg sm:leading-8">
+                Whether you are shaping a new direction, solving a technology
+                challenge, or preparing for meaningful change, let&apos;s
+                explore what comes next.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
               <Link
                 href="/contact"
-                className="px-8 py-4 rounded-full border border-white/20 text-white font-semibold text-base hover:bg-white/10 transition-all duration-300 inline-flex items-center gap-2"
+                className="group inline-flex min-h-14 items-center justify-center gap-4 rounded-full bg-[#c4a15c] px-7 text-sm font-semibold text-[#19172b] transition-all duration-300 hover:-translate-y-1 hover:bg-[#d0b16f] focus:outline-none focus:ring-2 focus:ring-[#c4a15c] focus:ring-offset-2 focus:ring-offset-[#19172b]"
               >
-                Send Us a Message
+                Start a Conversation
+
+                <span
+                  aria-hidden="true"
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-[#19172b]/10 transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
               </Link>
+
+              <Link
+                href="/services"
+                className="group inline-flex min-h-14 items-center justify-center gap-4 rounded-full border border-white/15 px-7 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-white/30"
+              >
+                Explore Capabilities
+
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Bottom positioning line */}
+          <div className="relative mt-14 border-t border-white/[0.08] pt-6 sm:mt-16">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/30">
+                Strategy · Technology · Transformation
+              </p>
+
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#c4a15c]" />
+                <span className="h-px w-8 bg-white/15" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#7857c7]" />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            scroll-behavior: auto !important;
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
