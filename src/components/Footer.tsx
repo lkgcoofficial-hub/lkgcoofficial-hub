@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import AppLogo from '@/components/ui/AppLogo';
-import { Linkedin, Instagram, Pinterest, Mail } from 'lucide-react';
+import { Linkedin, Instagram, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -27,18 +27,21 @@ export default function Footer() {
             >
               Home
             </Link>
+
             <Link
               href="/services"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               Services
             </Link>
+
             <Link
               href="/homepage#about"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               About
             </Link>
+
             <Link
               href="/contact"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -49,6 +52,7 @@ export default function Footer() {
 
           {/* Social Preferences */}
           <div className="flex items-center gap-3">
+            {/* LinkedIn */}
             <a
               href="https://www.linkedin.com/company/lkg-company"
               target="_blank"
@@ -59,6 +63,7 @@ export default function Footer() {
               <Linkedin size={18} />
             </a>
 
+            {/* Instagram */}
             <a
               href="https://www.instagram.com/lkgandco?stkn=MXUza3BmdTkyMGprbQ=="
               target="_blank"
@@ -69,6 +74,7 @@ export default function Footer() {
               <Instagram size={18} />
             </a>
 
+            {/* Pinterest */}
             <a
               href="https://www.pinterest.com/lkgcompany"
               target="_blank"
@@ -76,9 +82,18 @@ export default function Footer() {
               aria-label="LKG & Co. on Pinterest"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#E60023] hover:border-[#E60023] transition-colors"
             >
-              <Pinterest size={18} />
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 2C6.48 2 3 5.58 3 10.02c0 3.35 1.87 5.96 4.67 6.99-.06-.59-.01-1.3.15-1.96l1.1-4.67s-.28-.56-.28-1.39c0-1.3.76-2.27 1.71-2.27.81 0 1.2.61 1.2 1.34 0 .82-.52 2.05-.79 3.19-.23.95.48 1.73 1.42 1.73 1.7 0 3-1.79 3-4.38 0-2.29-1.65-3.9-4.01-3.9-2.73 0-4.33 2.05-4.33 4.17 0 .83.32 1.72.72 2.2.08.1.09.19.07.29l-.27 1.1c-.04.18-.14.22-.33.13-1.23-.57-2-2.35-2-3.78 0-3.08 2.24-5.91 6.47-5.91 3.4 0 6.04 2.42 6.04 5.66 0 3.38-2.13 6.1-5.09 6.1-.99 0-1.92-.52-2.24-1.13l-.61 2.32c-.22.8-.81 1.81-1.21 2.42.91.28 1.87.43 2.86.43 5.52 0 9-3.58 9-8.02C21 5.58 17.52 2 12 2z" />
+              </svg>
             </a>
 
+            {/* Email */}
             <a
               href="mailto:lkgco.official@gmail.com"
               aria-label="Email LKG & Co."
@@ -91,14 +106,18 @@ export default function Footer() {
           {/* Copyright + Legal */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>© 2026 LKG &amp; Co.</span>
+
             <span className="text-border">·</span>
+
             <Link
               href="/contact"
               className="hover:text-foreground transition-colors"
             >
               Privacy
             </Link>
+
             <span className="text-border">·</span>
+
             <Link
               href="/contact"
               className="hover:text-foreground transition-colors"
