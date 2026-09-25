@@ -1,133 +1,296 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 const pillars = [
-  { icon: '◆', label: 'Technology', desc: 'Full-stack engineering' },
-  { icon: '◈', label: 'Marketing', desc: 'Data-driven growth' },
-  { icon: '◉', label: 'Consulting', desc: 'Strategic advisory' },
+  {
+    number: '01',
+    title: 'Strategy',
+    description:
+      'Clarity before execution. We turn business challenges, opportunities, and ambitions into focused direction and practical priorities.',
+  },
+  {
+    number: '02',
+    title: 'Technology',
+    description:
+      'We use practical technology to turn ideas into digital products, platforms, and systems built around real business needs.',
+  },
+  {
+    number: '03',
+    title: 'Transformation',
+    description:
+      'We help businesses evolve by connecting people, processes, and technology around meaningful and sustainable change.',
+  },
 ];
 
 export default function AboutPreview() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const element = sectionRef.current;
+
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12 }
     );
-    const elements = sectionRef?.current?.querySelectorAll('.reveal-hidden');
-    elements?.forEach((el) => observer?.observe(el));
-    return () => observer?.disconnect();
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          {/* Left: Text */}
-          <div className="lg:col-span-6 space-y-8">
-            <div className="reveal-hidden">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-3 block">About LKG &amp; Co.</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold leading-[1.1] tracking-tight text-foreground">
-                A modern firm built for{' '}
-                <span className="text-gradient">digital-first</span> businesses.
-              </h2>
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative overflow-hidden bg-white py-24 sm:py-28 lg:py-36"
+    >
+      {/* Subtle background atmosphere */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-48 -top-48 h-[520px] w-[520px] rounded-full bg-[#7857c7]/[0.035] blur-3xl"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full bg-[#c4a15c]/[0.035] blur-3xl"
+      />
+
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        {/* INTRO */}
+        <div
+          className={`grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:items-end lg:gap-24 transition-all duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div>
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-[#c4a15c]" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7655bf]">
+                About LKG &amp; Company
+              </span>
             </div>
 
-            <p className="reveal-hidden stagger-1 text-lg text-muted-foreground leading-relaxed">
-              We are a modern IT and consulting firm with deep expertise across technology, marketing, and digital transformation. Our mission is to simplify complex business challenges through innovative and scalable solutions.
+            <h2 className="max-w-[560px] text-[clamp(2.8rem,5vw,5.4rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-[#19172b]">
+              Built around
+              <span className="block text-[#7857c7]">what matters.</span>
+            </h2>
+          </div>
+
+          <div className="max-w-[720px] lg:pb-1">
+            <p className="text-xl leading-8 tracking-[-0.015em] text-[#4f4b60] sm:text-2xl sm:leading-9">
+              LKG &amp; Company brings{' '}
+              <span className="font-medium text-[#252138]">
+                strategy, technology, and transformation
+              </span>{' '}
+              together to help businesses turn ambitious ideas and complex
+              challenges into meaningful outcomes.
             </p>
 
-            <div className="reveal-hidden stagger-2 grid grid-cols-3 gap-4">
-              {pillars?.map((p) => (
-                <div
-                  key={p?.label}
-                  className="p-4 rounded-2xl bg-muted border border-border hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 text-center"
-                >
-                  <div className="text-2xl text-primary mb-2">{p?.icon}</div>
-                  <div className="text-sm font-bold text-foreground">{p?.label}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{p?.desc}</div>
-                </div>
-              ))}
-            </div>
+            <p className="mt-6 max-w-[650px] text-base leading-7 text-[#777285]">
+              We believe technology creates the most value when it is connected
+              to a clear purpose. Our approach starts with understanding what
+              matters, then turning that understanding into practical action.
+            </p>
 
-            <div className="reveal-hidden stagger-3">
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all group"
-              >
-                Explore Our Services
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <Link
+              href="/services"
+              className="group mt-8 inline-flex items-center gap-3 text-sm font-semibold text-[#7050bb]"
+            >
+              Explore what we do
+
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7857c7]/20 bg-[#7857c7]/[0.04] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#7857c7]/40 group-hover:bg-[#7857c7]/[0.08]">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.75 9H14.25M14.25 9L9.75 4.5M14.25 9L9.75 13.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
-              </Link>
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        {/* PILLARS */}
+        <div
+          className={`mt-20 border-y border-[#19172b]/[0.08] lg:mt-28 transition-all delay-150 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div className="grid md:grid-cols-3">
+            {pillars.map((pillar, index) => (
+              <div
+                key={pillar.number}
+                className={`group relative px-1 py-10 sm:px-5 lg:px-8 lg:py-12 ${
+                  index !== pillars.length - 1
+                    ? 'border-b border-[#19172b]/[0.08] md:border-b-0 md:border-r'
+                    : ''
+                }`}
+              >
+                {/* Number */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold tracking-[0.16em] text-[#aaa5b4]">
+                    {pillar.number}
+                  </span>
+
+                  <span className="h-px w-8 bg-[#c4a15c]/50 transition-all duration-500 group-hover:w-12" />
+                </div>
+
+                {/* Title */}
+                <h3 className="mt-9 text-2xl font-semibold tracking-[-0.035em] text-[#211e34] sm:text-3xl">
+                  {pillar.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-4 max-w-[360px] text-sm leading-7 text-[#777285] sm:text-[15px]">
+                  {pillar.description}
+                </p>
+
+                {/* Decorative mark */}
+                <div className="mt-9 flex items-center gap-2">
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      index === 1
+                        ? 'bg-[#8c68cf]'
+                        : index === 2
+                          ? 'bg-[#c4a15c]'
+                          : 'bg-[#7857c7]'
+                    }`}
+                  />
+
+                  <span className="h-px w-10 bg-[#19172b]/10 transition-all duration-500 group-hover:w-16" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* PHILOSOPHY */}
+        <div
+          className={`mt-20 grid gap-10 lg:mt-28 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-24 transition-all delay-300 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {/* Visual */}
+          <div className="relative mx-auto w-full max-w-[500px] lg:mx-0">
+            <div className="relative aspect-square overflow-hidden rounded-[32px] bg-[#19172b] p-7 sm:p-9">
+              {/* Fixed decorative rings */}
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-[#c4a15c]/20" />
+
+              <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full border border-[#7857c7]/20" />
+
+              <div className="absolute left-1/2 top-1/2 h-[65%] w-[65%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.08]" />
+
+              {/* Center */}
+              <div className="absolute left-1/2 top-1/2 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-white/10 bg-white/[0.045] text-center backdrop-blur-sm sm:h-44 sm:w-44">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40">
+                  Our focus
+                </span>
+
+                <span className="mt-2 text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl">
+                  Impact
+                </span>
+              </div>
+
+              {/* Orbit labels */}
+              <div className="absolute left-[9%] top-[28%] rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 backdrop-blur-sm">
+                <span className="text-[11px] font-medium text-white/65">
+                  Purpose
+                </span>
+              </div>
+
+              <div className="absolute right-[8%] top-[22%] rounded-full border border-[#c4a15c]/20 bg-[#c4a15c]/[0.06] px-4 py-2 backdrop-blur-sm">
+                <span className="text-[11px] font-medium text-[#d7bd8c]">
+                  Direction
+                </span>
+              </div>
+
+              <div className="absolute bottom-[20%] left-[13%] rounded-full border border-[#7857c7]/20 bg-[#7857c7]/[0.08] px-4 py-2 backdrop-blur-sm">
+                <span className="text-[11px] font-medium text-[#c5b4e8]">
+                  Action
+                </span>
+              </div>
+
+              <div className="absolute bottom-[14%] right-[10%] rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 backdrop-blur-sm">
+                <span className="text-[11px] font-medium text-white/65">
+                  Outcome
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Right: Stats panel */}
-          <div className="lg:col-span-6 reveal-hidden stagger-1">
-            <div className="glass-card rounded-3xl p-10 shadow-card">
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { value: '200+', label: 'Projects Delivered', sub: 'Across 8+ industries' },
-                  { value: '50+', label: 'Enterprise Clients', sub: 'Long-term partnerships' },
-                  { value: '99%', label: 'Client Satisfaction', sub: 'Based on 2025 survey' },
-                  { value: '5★', label: 'Average Rating', sub: 'Across all engagements' },
-                ]?.map((stat) => (
-                  <div
-                    key={stat?.label}
-                    className="p-5 rounded-2xl bg-background border border-border hover:border-primary/20 transition-colors"
-                  >
-                    <div className="text-3xl font-extrabold text-foreground mb-1">{stat?.value}</div>
-                    <div className="text-sm font-semibold text-foreground">{stat?.label}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{stat?.sub}</div>
-                  </div>
-                ))}
+          {/* Philosophy */}
+          <div>
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-[#c4a15c]" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7655bf]">
+                How we think
+              </span>
+            </div>
+
+            <h3 className="max-w-[700px] text-[clamp(2.3rem,4vw,4.2rem)] font-semibold leading-[1] tracking-[-0.05em] text-[#19172b]">
+              Technology is the means.
+              <span className="block text-[#7857c7]">
+                Impact is the point.
+              </span>
+            </h3>
+
+            <p className="mt-7 max-w-[680px] text-base leading-8 text-[#6d687a] sm:text-lg">
+              We do not believe in technology for technology&apos;s sake.
+              Every initiative should connect back to a business objective,
+              solve a meaningful problem, or create an opportunity worth
+              pursuing.
+            </p>
+
+            <div className="mt-9 grid gap-5 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[#19172b]/[0.07] bg-[#faf9fc] p-5">
+                <p className="text-sm font-semibold text-[#242137]">
+                  Purpose first
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-[#817c8d]">
+                  Start with the problem and the outcome, not the technology.
+                </p>
               </div>
 
-              <div className="mt-6 p-5 rounded-2xl gold-line bg-accent/8 border border-accent/20">
-                <p className="text-sm font-medium text-foreground/80 leading-relaxed">
-                  <span className="font-bold text-accent">Since 2019</span>, we&apos;ve helped startups and enterprises navigate complex digital landscapes with clarity and precision.
+              <div className="rounded-2xl border border-[#19172b]/[0.07] bg-[#faf9fc] p-5">
+                <p className="text-sm font-semibold text-[#242137]">
+                  Practical by design
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-[#817c8d]">
+                  Build solutions that can create value in the real world.
                 </p>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Founder / CEO Section */}
-        <div className="reveal-hidden mt-16 p-8 md:p-10 rounded-3xl glass-card shadow-card border border-border">
-          <div className="flex flex-col md:flex-row md:items-start gap-6">
-            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl text-primary">
-              👤
-            </div>
-            <div className="space-y-3">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary block mb-1">Founder &amp; CEO</span>
-                <h3 className="text-2xl font-extrabold text-foreground">Ayush Kumar Singh</h3>
-              </div>
-              <p className="text-base text-muted-foreground leading-relaxed max-w-3xl">
-                Founded on <span className="font-semibold text-foreground">29/04/2026</span>, the company is led by its Founder &amp; CEO,{' '}
-                <span className="font-semibold text-foreground">Ayush Kumar Singh</span>, a Gen Z entrepreneur with a strong technical background and expertise in the consulting industry. With a vision to simplify and modernize access to IT and digital services, he drives LKG &amp; Co. with a focus on innovation, practical solutions, and delivering impactful results for businesses.
-              </p>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Gen Z Entrepreneur', 'IT & Digital Services', 'Consulting Expert', 'Innovation-Driven']?.map((tag) => (
-                  <span key={tag} className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
   );
