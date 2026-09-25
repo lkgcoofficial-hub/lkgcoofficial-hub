@@ -14,7 +14,7 @@ export default function Footer() {
               size={36}
             />
             <span className="font-bold text-lg tracking-tight text-foreground">
-              LKG <span className="text-primary">&amp; Co.</span>
+              LKG <span className="text-primary">&amp; Company</span>
             </span>
           </Link>
 
@@ -56,7 +56,7 @@ export default function Footer() {
               href="https://www.linkedin.com/company/lkg-company"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LKG & Co. on LinkedIn"
+              aria-label="LKG & Company on LinkedIn"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#0A66C2] hover:border-[#0A66C2] transition-colors"
             >
               <svg
@@ -75,7 +75,7 @@ export default function Footer() {
               href="https://www.instagram.com/lkgandco?stkn=MXUza3BmdTkyMGprbQ=="
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LKG & Co. on Instagram"
+              aria-label="LKG & Company on Instagram"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#E4405F] hover:border-[#E4405F] transition-colors"
             >
               <svg
@@ -98,7 +98,7 @@ export default function Footer() {
               href="https://www.pinterest.com/lkgcompany"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LKG & Co. on Pinterest"
+              aria-label="LKG & Company on Pinterest"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#E60023] hover:border-[#E60023] transition-colors"
             >
               <svg
@@ -115,7 +115,7 @@ export default function Footer() {
             {/* Email */}
             <a
               href="mailto:lkgco.official@gmail.com"
-              aria-label="Email LKG & Co."
+              aria-label="Email LKG & Company"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
             >
               <svg
@@ -135,7 +135,7 @@ export default function Footer() {
 
           {/* Copyright + Legal */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>© 2026 LKG &amp; Co.</span>
+            <span>© 2026 LKG &amp; Company</span>
 
             <span className="text-border">·</span>
 
