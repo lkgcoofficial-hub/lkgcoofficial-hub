@@ -1,143 +1,203 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const reasons = [
+const principles = [
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-    title: 'End-to-End Solutions',
-    desc: 'From strategy to deployment and beyond — we handle every layer of your digital transformation without handoff gaps.',
-    highlight: true,
+    number: '01',
+    title: 'Business-first thinking',
+    description:
+      'We begin with the business problem, opportunity, and desired outcome — then determine where technology can create meaningful value.',
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-    title: 'Cost-Effective Execution',
-    desc: 'Enterprise-grade quality at a fraction of Big-4 rates. We optimise every sprint to deliver maximum ROI.',
-    highlight: false,
+    number: '02',
+    title: 'Practical execution',
+    description:
+      'Good ideas only matter when they can be put into action. We focus on solutions that are purposeful, usable, and built for the real world.',
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
-      </svg>
-    ),
-    title: 'Scalable Architecture',
-    desc: 'Systems designed to grow with you — from 100 users to 10 million, built on proven cloud-native patterns.',
-    highlight: false,
+    number: '03',
+    title: 'Connected capabilities',
+    description:
+      'Strategy, technology, and transformation work better when they move together. We connect the pieces instead of treating them as isolated projects.',
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-      </svg>
-    ),
-    title: 'Dedicated Expert Support',
-    desc: 'A named team of specialists assigned to your account — not a ticket queue. Direct access, always.',
-    highlight: true,
+    number: '04',
+    title: 'Built for what’s next',
+    description:
+      'We think beyond the immediate requirement, creating foundations that can adapt as priorities, customers, and technology evolve.',
   },
 ];
 
 export default function WhyChooseUs() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const element = sectionRef.current;
+
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1 }
     );
-    const elements = sectionRef?.current?.querySelectorAll('.reveal-hidden');
-    elements?.forEach((el) => observer?.observe(el));
-    return () => observer?.disconnect();
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="reveal-hidden">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-3 block">Why LKG &amp; Co.</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold leading-[1.1] tracking-tight text-foreground">
-              The{' '}
-              <span className="text-gradient">competitive edge</span>{' '}
-              you&apos;ve been looking for.
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-white py-24 sm:py-28 lg:py-36"
+    >
+      {/* Background atmosphere */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-220px] top-[-180px] h-[520px] w-[520px] rounded-full bg-[#7857c7]/[0.035] blur-3xl"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-[-220px] left-[-200px] h-[500px] w-[500px] rounded-full bg-[#c4a15c]/[0.035] blur-3xl"
+      />
+
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        {/* Heading */}
+        <div
+          className={`grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-24 transition-all duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div>
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-[#c4a15c]" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7655bf]">
+                Why LKG &amp; Company
+              </span>
+            </div>
+
+            <h2 className="max-w-[620px] text-[clamp(2.8rem,5vw,5.2rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-[#19172b]">
+              How we think
+              <span className="block text-[#7857c7]">
+                shapes what we build.
+              </span>
             </h2>
           </div>
-          <p className="reveal-hidden stagger-1 text-lg text-muted-foreground mt-4 leading-relaxed">
-            We combine enterprise-grade methodology with the agility of a boutique firm.
+
+          <p className="max-w-[700px] text-lg leading-8 text-[#625e70] sm:text-xl sm:leading-9 lg:pb-1">
+            The difference is not simply in what gets delivered. It is in how
+            the problem is understood, how decisions are made, and how every
+            part connects back to the outcome.
           </p>
         </div>
 
-        {/* Asymmetric Bento Grid */}
-        {/* Row 1: [col-1+2: End-to-End cs-2] [col-3: Cost-Effective cs-1] */}
-        {/* Row 2: [col-1: Scalable cs-1] [col-2+3: Dedicated Support cs-2] */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1 — spans 2 cols */}
-          <div className="reveal-hidden md:col-span-2 bg-primary rounded-3xl p-10 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center text-white mb-6">
-                {reasons?.[0]?.icon}
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-3">{reasons?.[0]?.title}</h3>
-              <p className="text-white/75 leading-relaxed text-base">{reasons?.[0]?.desc}</p>
-              <div className="mt-8 flex items-center gap-2">
-                <div className="h-0.5 w-12 bg-accent" />
-                <span className="text-accent text-xs font-bold uppercase tracking-widest">Our Commitment</span>
-              </div>
-            </div>
-          </div>
+        {/* Principles */}
+        <div
+          className={`mt-16 grid border-t border-[#19172b]/[0.08] lg:mt-24 lg:grid-cols-2 transition-all delay-150 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {principles.map((principle, index) => (
+            <article
+              key={principle.number}
+              className={`group relative py-9 sm:py-10 lg:px-8 lg:py-12 ${
+                index % 2 === 0
+                  ? 'lg:border-r lg:border-[#19172b]/[0.08] lg:pr-12'
+                  : 'lg:pl-12'
+              } ${
+                index < 2
+                  ? 'border-b border-[#19172b]/[0.08]'
+                  : ''
+              }`}
+            >
+              <div className="flex items-start justify-between gap-8">
+                <span className="text-xs font-semibold tracking-[0.16em] text-[#aaa5b4]">
+                  {principle.number}
+                </span>
 
-          {/* Card 2 — 1 col */}
-          <div className="reveal-hidden stagger-1 bg-card rounded-3xl p-8 border border-border shadow-soft group hover:border-primary/30 transition-all duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent mb-6">
-              {reasons?.[1]?.icon}
-            </div>
-            <h3 className="text-xl font-bold text-foreground mb-3">{reasons?.[1]?.title}</h3>
-            <p className="text-muted-foreground leading-relaxed text-sm">{reasons?.[1]?.desc}</p>
-          </div>
-
-          {/* Card 3 — 1 col */}
-          <div className="reveal-hidden stagger-2 bg-card rounded-3xl p-8 border border-border shadow-soft group hover:border-primary/30 transition-all duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
-              {reasons?.[2]?.icon}
-            </div>
-            <h3 className="text-xl font-bold text-foreground mb-3">{reasons?.[2]?.title}</h3>
-            <p className="text-muted-foreground leading-relaxed text-sm">{reasons?.[2]?.desc}</p>
-          </div>
-
-          {/* Card 4 — spans 2 cols */}
-          <div className="reveal-hidden stagger-3 md:col-span-2 bg-muted rounded-3xl p-10 border border-border relative overflow-hidden group hover:border-primary/30 transition-all duration-300">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
-            <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
-                {reasons?.[3]?.icon}
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#7857c7]/15 bg-[#7857c7]/[0.045] transition-all duration-500 group-hover:border-[#7857c7]/30 group-hover:bg-[#7857c7]/[0.08]">
+                  <span className="h-2 w-2 rounded-full bg-[#7857c7]" />
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">{reasons?.[3]?.title}</h3>
-              <p className="text-muted-foreground leading-relaxed text-base max-w-lg">{reasons?.[3]?.desc}</p>
-              <div className="mt-8 grid grid-cols-3 gap-4">
-                {['< 4hr Response', 'Named POC', '24/7 Monitoring']?.map((item) => (
-                  <div key={item} className="flex items-center gap-2 text-sm font-medium text-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                    {item}
-                  </div>
-                ))}
+
+              <h3 className="mt-9 max-w-[500px] text-2xl font-semibold tracking-[-0.035em] text-[#211e34] sm:text-3xl">
+                {principle.title}
+              </h3>
+
+              <p className="mt-4 max-w-[570px] text-sm leading-7 text-[#777285] sm:text-[15px]">
+                {principle.description}
+              </p>
+
+              <div className="mt-8 flex items-center gap-3">
+                <span className="h-px w-8 bg-[#c4a15c]/60 transition-all duration-500 group-hover:w-14" />
+
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#aaa5b4]">
+                  LKG approach
+                </span>
               </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Closing statement */}
+        <div
+          className={`relative mt-20 overflow-hidden rounded-[30px] bg-[#19172b] px-7 py-12 sm:px-10 sm:py-14 lg:mt-28 lg:px-16 lg:py-16 transition-all delay-300 duration-1000 ease-out ${
+            visible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {/* Decorative rings */}
+          <div
+            aria-hidden="true"
+            className="absolute -right-28 -top-28 h-72 w-72 rounded-full border border-[#c4a15c]/15"
+          />
+
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-40 -left-20 h-80 w-80 rounded-full border border-[#7857c7]/15"
+          />
+
+          <div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-20">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c4a15c]">
+                The LKG perspective
+              </p>
+
+              <h3 className="mt-5 max-w-[850px] text-[clamp(2.2rem,4vw,4rem)] font-semibold leading-[1] tracking-[-0.05em] text-white">
+                Less about doing more.
+                <span className="block text-[#b9a0df]">
+                  More about making it matter.
+                </span>
+              </h3>
+
+              <p className="mt-6 max-w-[700px] text-sm leading-7 text-white/50 sm:text-base">
+                We aim to connect effort with purpose — helping businesses
+                make clearer decisions, build practical solutions, and create
+                progress that can be carried forward.
+              </p>
+            </div>
+
+            {/* Visual mark */}
+            <div className="relative flex h-32 w-32 shrink-0 items-center justify-center self-start rounded-full border border-white/10 bg-white/[0.03] lg:self-center">
+              <div className="absolute h-20 w-20 rounded-full border border-[#7857c7]/30" />
+
+              <div className="absolute h-10 w-10 rounded-full border border-[#c4a15c]/35" />
+
+              <div className="h-2.5 w-2.5 rounded-full bg-[#c4a15c]" />
             </div>
           </div>
         </div>
