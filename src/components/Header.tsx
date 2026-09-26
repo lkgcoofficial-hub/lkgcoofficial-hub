@@ -171,10 +171,22 @@ const megaMenus = {
       {
         title: 'LKG & Company',
         items: [
-          { label: 'Who We Are', href: '/homepage#about' },
-          { label: 'Our Approach', href: '/homepage#about' },
-          { label: 'Why LKG & Company', href: '/homepage#about' },
-          { label: 'Our Process', href: '/services' },
+          {
+            label: 'Who We Are',
+            href: '/aboutus/who-we-are',
+          },
+          {
+            label: 'Our Approach',
+            href: '/homepage#about',
+          },
+          {
+            label: 'Why LKG & Company',
+            href: '/homepage#about',
+          },
+          {
+            label: 'Our Process',
+            href: '/services',
+          },
         ],
       },
       {
