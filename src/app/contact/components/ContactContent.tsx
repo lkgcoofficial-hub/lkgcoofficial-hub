@@ -5,34 +5,59 @@ import React, { useEffect, useRef, useState } from 'react';
 type FormState = {
   name: string;
   email: string;
+  phone: string;
   company: string;
   service: string;
+  budget: string;
   message: string;
 };
 
 const initialForm: FormState = {
   name: '',
   email: '',
+  phone: '',
   company: '',
   service: '',
+  budget: '',
   message: '',
 };
 
 const serviceOptions = [
-  'Web Development',
-  'Android Development',
-  'Digital Marketing & SEO',
-  'Cloud Optimization',
-  'IT Staffing & Consulting',
-  'Custom Software Development',
+  'Consulting & Strategy',
+  'Digital Growth & Marketing',
+  'Web & Software Development',
+  'Mobile App Development',
+  'AI, Data & Automation',
+  'Cloud, DevOps & Cybersecurity',
+  'Enterprise Technology',
+  'IT Staffing & Delivery',
   'Other / Not Sure',
+];
+
+const budgetOptions = [
+  'Not sure yet',
+  'Under $5,000',
+  '$5,000 – $10,000',
+  '$10,000 – $25,000',
+  '$25,000 – $50,000',
+  '$50,000+',
 ];
 
 const contactInfo = [
   {
     icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+        />
       </svg>
     ),
     label: 'Email',
@@ -41,8 +66,18 @@ const contactInfo = [
   },
   {
     icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     ),
     label: 'Response Time',
@@ -51,8 +86,18 @@ const contactInfo = [
   },
   {
     icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75zm0 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+        />
       </svg>
     ),
     label: 'Book a Meeting',
@@ -63,36 +108,91 @@ const contactInfo = [
 
 export default function ContactContent() {
   const ref = useRef<HTMLDivElement>(null);
+
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('revealed');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
         });
       },
       { threshold: 0.08 }
     );
-    ref.current?.querySelectorAll('.reveal-hidden').forEach((el) => observer.observe(el));
+
+    ref.current
+      ?.querySelectorAll('.reveal-hidden')
+      .forEach((el) => observer.observe(el));
+
     return () => observer.disconnect();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+    if (error) {
+      setError('');
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
-    // Mock submit handler — connect to backend/email service here
-    setTimeout(() => {
-      setLoading(false);
+    setError('');
+
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          company: form.company,
+          service: form.service,
+          budget: form.budget,
+          message: form.message,
+          source: 'Contact Page',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || 'Unable to submit your enquiry.'
+        );
+      }
+
       setSubmitted(true);
       setForm(initialForm);
-    }, 1200);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -102,7 +202,10 @@ export default function ContactContent() {
           {/* Left: Contact Info + Booking */}
           <div className="lg:col-span-4 space-y-8">
             <div className="reveal-hidden">
-              <h2 className="text-2xl font-extrabold text-foreground mb-2">Contact Information</h2>
+              <h2 className="text-2xl font-extrabold text-foreground mb-2">
+                Contact Information
+              </h2>
+
               <p className="text-muted-foreground text-sm leading-relaxed">
                 Reach out directly or use the form to send a detailed enquiry.
               </p>
@@ -117,19 +220,31 @@ export default function ContactContent() {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
                     {info.icon}
                   </div>
+
                   <div>
-                    <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-0.5">{info.label}</div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-0.5">
+                      {info.label}
+                    </div>
+
                     {info.href ? (
                       <a
                         href={info.href}
-                        target={info.href.startsWith('http') ? '_blank' : undefined}
-                        rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        target={
+                          info.href.startsWith('http') ? '_blank' : undefined
+                        }
+                        rel={
+                          info.href.startsWith('http')
+                            ? 'noopener noreferrer'
+                            : undefined
+                        }
                         className="text-sm font-semibold text-foreground hover:text-primary transition-colors"
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <span className="text-sm font-semibold text-foreground">{info.value}</span>
+                      <span className="text-sm font-semibold text-foreground">
+                        {info.value}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -139,25 +254,53 @@ export default function ContactContent() {
             {/* Book Meeting CTA */}
             <div className="reveal-hidden stagger-2 p-8 rounded-3xl bg-foreground relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
+
               <div className="relative z-10">
                 <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center mb-4">
-                  <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                  <svg
+                    className="w-5 h-5 text-accent"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">Prefer a live conversation?</h3>
+
+                <h3 className="text-lg font-bold text-white mb-2">
+                  Prefer a live conversation?
+                </h3>
+
                 <p className="text-sm text-white/60 mb-5 leading-relaxed">
-                  Book a 30-minute discovery call with our team. Zero obligation.
+                  Book a 30-minute discovery call with our team. Zero
+                  obligation.
                 </p>
+
                 <a
                   href="https://calendly.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-3 rounded-xl bg-accent text-foreground font-bold text-sm inline-flex items-center justify-center gap-2 hover:bg-accent/90 transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
                   </svg>
+
                   Book a Meeting
                 </a>
               </div>
@@ -170,16 +313,35 @@ export default function ContactContent() {
               {submitted ? (
                 <div className="text-center py-16">
                   <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                    <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-8 h-8 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-extrabold text-foreground mb-3">Message Received</h3>
+
+                  <h3 className="text-2xl font-extrabold text-foreground mb-3">
+                    Message Received
+                  </h3>
+
                   <p className="text-muted-foreground text-base leading-relaxed max-w-sm mx-auto">
-                    Thank you for reaching out. Our team will respond within 4 business hours.
+                    Thank you for reaching out. Our team will respond within 4
+                    business hours.
                   </p>
+
                   <button
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => {
+                      setSubmitted(false);
+                      setError('');
+                    }}
                     className="mt-8 btn-outline px-6 py-3 rounded-full text-sm font-semibold"
                   >
                     Send Another Message
@@ -188,36 +350,63 @@ export default function ContactContent() {
               ) : (
                 <>
                   <div className="mb-8">
-                    <h2 className="text-2xl font-extrabold text-foreground mb-1">Send us a message</h2>
-                    <p className="text-muted-foreground text-sm">All fields are required unless marked optional.</p>
+                    <h2 className="text-2xl font-extrabold text-foreground mb-1">
+                      Send us a message
+                    </h2>
+
+                    <p className="text-muted-foreground text-sm">
+                      Tell us what you&apos;re looking to achieve and we&apos;ll
+                      take it from there.
+                    </p>
                   </div>
 
+                  {error && (
+                    <div
+                      role="alert"
+                      className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                    >
+                      {error}
+                    </div>
+                  )}
+
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Name + Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-foreground mb-1.5" htmlFor="name">
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="name"
+                        >
                           Full Name
                         </label>
+
                         <input
                           id="name"
                           name="name"
                           type="text"
                           required
+                          autoComplete="name"
                           value={form.name}
                           onChange={handleChange}
                           placeholder="James Carter"
                           className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
                         />
                       </div>
+
                       <div>
-                        <label className="block text-sm font-semibold text-foreground mb-1.5" htmlFor="email">
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="email"
+                        >
                           Work Email
                         </label>
+
                         <input
                           id="email"
                           name="email"
                           type="email"
                           required
+                          autoComplete="email"
                           value={form.email}
                           onChange={handleChange}
                           placeholder="james@company.com"
@@ -226,25 +415,63 @@ export default function ContactContent() {
                       </div>
                     </div>
 
+                    {/* Phone + Company */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-foreground mb-1.5" htmlFor="company">
-                          Company Name <span className="text-muted-foreground font-normal">(optional)</span>
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="phone"
+                        >
+                          Phone Number
                         </label>
+
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          required
+                          autoComplete="tel"
+                          value={form.phone}
+                          onChange={handleChange}
+                          placeholder="+91 98765 43210"
+                          className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="company"
+                        >
+                          Company Name{' '}
+                          <span className="text-muted-foreground font-normal">
+                            (optional)
+                          </span>
+                        </label>
+
                         <input
                           id="company"
                           name="company"
                           type="text"
+                          autoComplete="organization"
                           value={form.company}
                           onChange={handleChange}
                           placeholder="Acme Corp"
                           className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
                         />
                       </div>
+                    </div>
+
+                    {/* Service + Budget */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-foreground mb-1.5" htmlFor="service">
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="service"
+                        >
                           Service of Interest
                         </label>
+
                         <select
                           id="service"
                           name="service"
@@ -254,17 +481,51 @@ export default function ContactContent() {
                           className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
                         >
                           <option value="">Select a service...</option>
-                          {serviceOptions.map((opt) => (
-                            <option key={opt} value={opt}>{opt}</option>
+
+                          {serviceOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label
+                          className="block text-sm font-semibold text-foreground mb-1.5"
+                          htmlFor="budget"
+                        >
+                          Estimated Budget
+                        </label>
+
+                        <select
+                          id="budget"
+                          name="budget"
+                          required
+                          value={form.budget}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                        >
+                          <option value="">Select a budget range...</option>
+
+                          {budgetOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
                           ))}
                         </select>
                       </div>
                     </div>
 
+                    {/* Message */}
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-1.5" htmlFor="message">
+                      <label
+                        className="block text-sm font-semibold text-foreground mb-1.5"
+                        htmlFor="message"
+                      >
                         Message
                       </label>
+
                       <textarea
                         id="message"
                         name="message"
@@ -277,6 +538,7 @@ export default function ContactContent() {
                       />
                     </div>
 
+                    {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-2">
                       <button
                         type="submit"
@@ -285,30 +547,70 @@ export default function ContactContent() {
                       >
                         {loading ? (
                           <>
-                            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            <svg
+                              className="w-4 h-4 animate-spin"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              />
+
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                              />
                             </svg>
+
                             Sending...
                           </>
                         ) : (
                           <>
                             Send Message
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                              />
                             </svg>
                           </>
                         )}
                       </button>
+
                       <a
                         href="https://calendly.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-outline flex-1 py-4 rounded-xl text-base font-semibold inline-flex items-center justify-center gap-2"
                       >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
                         </svg>
+
                         Book a Meeting
                       </a>
                     </div>
