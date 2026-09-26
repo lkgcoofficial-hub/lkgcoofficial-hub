@@ -5,43 +5,74 @@ import AppIcon from './AppIcon';
 import AppImage from './AppImage';
 
 interface AppLogoProps {
-  src?: string; // Image source (optional)
-  iconName?: string; // Icon name when no image
-  size?: number; // Size for icon/image
-  className?: string; // Additional classes
-  onClick?: () => void; // Click handler
+  src?: string;
+  iconName?: string;
+  size?: number;
+  className?: string;
+  onClick?: () => void;
+  showCompanyName?: boolean;
 }
 
 const AppLogo = memo(function AppLogo({
-  src = '/assets/images/app_logo.png',
+  src = '/assets/images/LKG_Co_Logo-1777466274773.png',
   iconName = 'SparklesIcon',
   size = 64,
   className = '',
   onClick,
+  showCompanyName = true,
 }: AppLogoProps) {
-  // Memoize className calculation
   const containerClassName = useMemo(() => {
-    const classes = ['flex items-center'];
-    if (onClick) classes.push('cursor-pointer hover:opacity-80 transition-opacity');
-    if (className) classes.push(className);
+    const classes = [
+      'flex items-center',
+      'shrink-0',
+    ];
+
+    if (onClick) {
+      classes.push(
+        'cursor-pointer',
+        'transition-opacity',
+        'duration-200',
+        'hover:opacity-90'
+      );
+    }
+
+    if (className) {
+      classes.push(className);
+    }
+
     return classes.join(' ');
   }, [onClick, className]);
 
   return (
     <div className={containerClassName} onClick={onClick}>
-      {/* Show image if src provided, otherwise show icon */}
+      {/* LKG logo mark */}
       {src ? (
         <AppImage
           src={src}
-          alt="Logo" 
+          alt="LKG & Company"
           width={size}
           height={size}
-          className="flex-shrink-0"
-          priority={true}
+          className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
+          priority
           unoptimized={src.endsWith('.svg')}
         />
       ) : (
-        <AppIcon name={iconName} size={size} className="flex-shrink-0" />
+        <AppIcon
+          name={iconName}
+          size={size}
+          className="h-11 w-11 shrink-0 sm:h-12 sm:w-12"
+        />
+      )}
+
+      {/* Company name */}
+      {showCompanyName && (
+        <span className="ml-2.5 whitespace-nowrap text-[20px] font-semibold tracking-[-0.035em] sm:text-[21px]">
+          <span className="text-[#29253A]">LKG</span>
+          <span className="text-[#D4AF37]"> &amp; </span>
+          <span className="bg-gradient-to-r from-[#7C3AED] via-[#8E7CC3] to-[#D4AF37] bg-clip-text text-transparent">
+            Company
+          </span>
+        </span>
       )}
     </div>
   );
