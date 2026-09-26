@@ -275,28 +275,28 @@ export default function Header() {
     <>
       <header
         onMouseLeave={() => setActiveMenu(null)}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-soft py-3'
-            : 'bg-white/90 backdrop-blur-sm py-4'
+            ? 'bg-white/95 py-3 shadow-soft backdrop-blur-md'
+            : 'bg-white/90 py-4 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
+          {/* Brand */}
           <Link
             href="/homepage"
             aria-label="LKG & Company"
-            className="flex items-center shrink-0 group"
+            className="group flex shrink-0 items-center"
           >
             <AppLogo
               src="/assets/images/LKG_Co_Logo-1777466274773.png"
-              size={64}
-              className="transition-transform duration-300 group-hover:scale-[1.02]"
+              size={80}
+              className="transition-transform duration-300 group-hover:scale-[1.015]"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 ml-8">
+          <nav className="ml-8 hidden items-center gap-7 lg:flex">
             {menuItems.map((item) => {
               const isActive = activeMenu === item;
 
@@ -338,17 +338,17 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3 ml-auto">
+          <div className="ml-auto hidden items-center gap-3 lg:flex">
             <Link
               href="/contact"
-              className="btn-outline px-5 py-2.5 rounded-full text-sm font-semibold"
+              className="btn-outline rounded-full px-5 py-2.5 text-sm font-semibold"
             >
               Book Consultation
             </Link>
 
             <Link
               href="/services"
-              className="btn-primary px-5 py-2.5 rounded-full text-sm font-semibold"
+              className="btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
             >
               Get Started
             </Link>
@@ -356,26 +356,26 @@ export default function Header() {
 
           {/* Mobile Hamburger */}
           <button
-            className="lg:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-muted transition-colors"
+            className="flex flex-col gap-1.5 rounded-lg p-2 transition-colors hover:bg-muted lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                menuOpen ? 'rotate-45 translate-y-2' : ''
+              className={`block h-0.5 w-6 bg-foreground transition-all duration-300 ${
+                menuOpen ? 'translate-y-2 rotate-45' : ''
               }`}
             />
 
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
+              className={`block h-0.5 w-6 bg-foreground transition-all duration-300 ${
                 menuOpen ? 'opacity-0' : ''
               }`}
             />
 
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                menuOpen ? '-rotate-45 -translate-y-2' : ''
+              className={`block h-0.5 w-6 bg-foreground transition-all duration-300 ${
+                menuOpen ? '-translate-y-2 -rotate-45' : ''
               }`}
             />
           </button>
@@ -383,24 +383,24 @@ export default function Header() {
 
         {/* Desktop Mega Menu */}
         <div
-          className={`hidden lg:block absolute left-0 top-full w-full transition-all duration-200 ${
+          className={`absolute left-0 top-full hidden w-full transition-all duration-200 lg:block ${
             activeMenu
-              ? 'opacity-100 visible translate-y-0'
-              : 'opacity-0 invisible -translate-y-2 pointer-events-none'
+              ? 'visible translate-y-0 opacity-100'
+              : 'invisible -translate-y-2 pointer-events-none opacity-0'
           }`}
           onMouseEnter={() => {
             if (activeMenu) setActiveMenu(activeMenu);
           }}
         >
           {activeData && (
-            <div className="bg-white border-t border-gray-100 shadow-2xl">
-              <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="border-t border-gray-100 bg-white shadow-2xl">
+              <div className="mx-auto max-w-7xl px-6 py-8">
                 <div className="grid grid-cols-12 gap-8">
                   {/* Main Columns */}
                   <div className="col-span-8 grid grid-cols-3 gap-8">
                     {activeData.columns.map((column) => (
                       <div key={column.title}>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-gray-400 mb-4">
+                        <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.16em] text-gray-400">
                           {column.title}
                         </p>
 
@@ -410,11 +410,11 @@ export default function Header() {
                               key={item.label}
                               href={item.href}
                               onClick={() => setActiveMenu(null)}
-                              className="group flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all"
+                              className="group -mx-2 flex items-center justify-between rounded-lg px-2 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 hover:text-primary"
                             >
                               <span>{item.label}</span>
 
-                              <span className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                              <span className="translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100">
                                 →
                               </span>
                             </Link>
@@ -426,13 +426,13 @@ export default function Header() {
 
                   {/* Featured */}
                   <div className="col-span-4">
-                    <div className="h-full rounded-2xl bg-gray-950 text-white p-7 flex flex-col justify-between">
+                    <div className="flex h-full flex-col justify-between rounded-2xl bg-gray-950 p-7 text-white">
                       <div>
-                        <p className="text-[10px] font-bold tracking-[0.2em] text-white/50 mb-4">
+                        <p className="mb-4 text-[10px] font-bold tracking-[0.2em] text-white/50">
                           {activeData.featured.eyebrow}
                         </p>
 
-                        <h3 className="text-2xl font-semibold tracking-tight leading-tight mb-4">
+                        <h3 className="mb-4 text-2xl font-semibold leading-tight tracking-tight">
                           {activeData.featured.title}
                         </h3>
 
@@ -444,7 +444,7 @@ export default function Header() {
                       <Link
                         href={activeData.featured.href}
                         onClick={() => setActiveMenu(null)}
-                        className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-white hover:gap-3 transition-all"
+                        className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-white transition-all hover:gap-3"
                       >
                         {activeData.featured.link}
                         <span>→</span>
@@ -460,10 +460,10 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-40 transition-all duration-300 lg:hidden ${
           menuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+            ? 'pointer-events-auto opacity-100'
+            : 'pointer-events-none opacity-0'
         }`}
       >
         <div
@@ -472,11 +472,11 @@ export default function Header() {
         />
 
         <div
-          className={`absolute top-0 right-0 h-full w-[340px] max-w-[90vw] bg-white shadow-2xl flex flex-col pt-24 px-6 pb-8 transition-transform duration-300 overflow-y-auto ${
+          className={`absolute right-0 top-0 flex h-full w-[340px] max-w-[90vw] flex-col overflow-y-auto bg-white px-6 pb-8 pt-24 shadow-2xl transition-transform duration-300 ${
             menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <nav className="flex flex-col gap-1 flex-1">
+          <nav className="flex flex-1 flex-col gap-1">
             {menuItems.map((item) => {
               const data =
                 megaMenus[item as keyof typeof megaMenus];
@@ -490,7 +490,7 @@ export default function Header() {
                     onClick={() =>
                       setMobileExpanded(expanded ? null : item)
                     }
-                    className="w-full flex items-center justify-between py-4 text-left text-base font-semibold text-foreground"
+                    className="flex w-full items-center justify-between py-4 text-left text-base font-semibold text-foreground"
                   >
                     {item}
 
@@ -516,13 +516,13 @@ export default function Header() {
                   <div
                     className={`overflow-hidden transition-all duration-300 ${
                       expanded
-                        ? 'max-h-[800px] opacity-100 pb-4'
+                        ? 'max-h-[800px] pb-4 opacity-100'
                         : 'max-h-0 opacity-0'
                     }`}
                   >
                     {data.columns.map((column) => (
                       <div key={column.title} className="mb-4">
-                        <p className="text-[10px] uppercase tracking-[0.16em] font-bold text-gray-400 mb-2">
+                        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
                           {column.title}
                         </p>
 
@@ -551,7 +551,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`py-4 text-base font-semibold border-b border-gray-100 ${
+                className={`border-b border-gray-100 py-4 text-base font-semibold ${
                   pathname === link.href
                     ? 'text-primary'
                     : 'text-foreground'
@@ -563,11 +563,11 @@ export default function Header() {
           </nav>
 
           {/* Mobile CTA */}
-          <div className="flex flex-col gap-3 mt-6">
+          <div className="mt-6 flex flex-col gap-3">
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
-              className="btn-outline px-5 py-3 rounded-full text-sm font-semibold text-center"
+              className="btn-outline rounded-full px-5 py-3 text-center text-sm font-semibold"
             >
               Book Consultation
             </Link>
@@ -575,7 +575,7 @@ export default function Header() {
             <Link
               href="/services"
               onClick={() => setMenuOpen(false)}
-              className="btn-primary px-5 py-3 rounded-full text-sm font-semibold text-center"
+              className="btn-primary rounded-full px-5 py-3 text-center text-sm font-semibold"
             >
               Get Started
             </Link>
