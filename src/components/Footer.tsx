@@ -5,31 +5,32 @@ import AppLogo from '@/components/ui/AppLogo';
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-
+      <div className="mx-auto max-w-7xl px-6">
         {/* Main Footer */}
         <div className="py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
 
             {/* Brand */}
             <div className="lg:col-span-4">
               <Link
                 href="/homepage"
-                className="inline-flex items-center gap-2.5 group"
+                aria-label="LKG & Company"
+                className="group inline-flex items-center gap-2.5"
               >
                 <AppLogo
                   src="/assets/images/LKG_Co_Logo-1777466274773.png"
                   size={40}
+                  showCompanyName={false}
                   className="transition-transform duration-300 group-hover:scale-105"
                 />
 
-                <span className="font-bold text-xl tracking-tight text-foreground">
+                <span className="text-xl font-bold tracking-tight text-foreground">
                   LKG <span className="text-primary">&amp; Company</span>
                 </span>
               </Link>
 
               <div className="mt-6 max-w-sm">
-                <p className="text-lg font-medium text-foreground leading-relaxed">
+                <p className="text-lg font-medium leading-relaxed text-foreground">
                   Turning Effort into Impact
                 </p>
 
@@ -40,7 +41,7 @@ export default function Footer() {
               </div>
 
               {/* Social Links */}
-              <div className="flex items-center gap-3 mt-7">
+              <div className="mt-7 flex items-center gap-3">
 
                 {/* LinkedIn */}
                 <a
@@ -48,7 +49,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LKG & Company on LinkedIn"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#0A66C2] hover:border-[#0A66C2] transition-all duration-200"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-[#0A66C2] hover:text-[#0A66C2]"
                 >
                   <svg
                     width="17"
@@ -67,7 +68,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LKG & Company on Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#E4405F] hover:border-[#E4405F] transition-all duration-200"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-[#E4405F] hover:text-[#E4405F]"
                 >
                   <svg
                     width="17"
@@ -96,7 +97,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LKG & Company on Pinterest"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-[#E60023] hover:border-[#E60023] transition-all duration-200"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-[#E60023] hover:text-[#E60023]"
                 >
                   <svg
                     width="17"
@@ -113,7 +114,7 @@ export default function Footer() {
                 <a
                   href="mailto:lkgco.official@gmail.com"
                   aria-label="Email LKG & Company"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-all duration-200"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-primary hover:text-primary"
                 >
                   <svg
                     width="17"
@@ -140,35 +141,35 @@ export default function Footer() {
               <nav className="mt-5 flex flex-col gap-3.5">
                 <Link
                   href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Strategy
                 </Link>
 
                 <Link
                   href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Technology
                 </Link>
 
                 <Link
                   href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Transformation
                 </Link>
 
                 <Link
                   href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Digital &amp; AI
                 </Link>
 
                 <Link
                   href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Solutions
                 </Link>
@@ -183,29 +184,29 @@ export default function Footer() {
 
               <nav className="mt-5 flex flex-col gap-3.5">
                 <Link
-                  href="/homepage#about"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  href="/aboutus/who-we-are"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   About LKG &amp; Company
                 </Link>
 
                 <Link
-                  href="/homepage#about"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  href="/aboutus/our-approach"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Our Approach
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Careers
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Contact
                 </Link>
@@ -220,29 +221,29 @@ export default function Footer() {
 
               <nav className="mt-5 flex flex-col gap-3.5">
                 <Link
-                  href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  href="/insights"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Insights
                 </Link>
 
                 <Link
-                  href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  href="/insights"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Case Studies
                 </Link>
 
                 <Link
-                  href="/services"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  href="/insights"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Perspectives
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Start a Conversation
                 </Link>
@@ -258,14 +259,14 @@ export default function Footer() {
               <nav className="mt-5 flex flex-col gap-3.5">
                 <Link
                   href="/contact"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Contact Us
                 </Link>
 
                 <a
                   href="mailto:lkgco.official@gmail.com"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors break-all"
+                  className="break-all text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Email Us
                 </a>
@@ -274,7 +275,7 @@ export default function Footer() {
                   href="https://www.linkedin.com/company/lkg-company"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   LinkedIn
                 </a>
@@ -283,7 +284,7 @@ export default function Footer() {
                   href="https://www.instagram.com/lkgandco?stkn=MXUza3BmdTkyMGprbQ=="
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Instagram
                 </a>
@@ -294,9 +295,9 @@ export default function Footer() {
 
         {/* CTA */}
         <div className="border-t border-border py-10">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div>
-              <p className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
+              <p className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                 Have an idea, challenge, or opportunity?
               </p>
 
@@ -307,7 +308,7 @@ export default function Footer() {
 
             <Link
               href="/contact"
-              className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold whitespace-nowrap"
+              className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold whitespace-nowrap"
             >
               Start a Conversation
               <span aria-hidden="true">→</span>
@@ -317,15 +318,15 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-border py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground text-center md:text-left">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <p className="text-center text-xs text-muted-foreground md:text-left">
               © 2026 LKG &amp; Company. All rights reserved.
             </p>
 
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               <Link
                 href="/contact"
-                className="hover:text-foreground transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 Privacy Policy
               </Link>
@@ -334,7 +335,7 @@ export default function Footer() {
 
               <Link
                 href="/contact"
-                className="hover:text-foreground transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 Terms of Service
               </Link>
@@ -343,14 +344,13 @@ export default function Footer() {
 
               <Link
                 href="/contact"
-                className="hover:text-foreground transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 Sitemap
               </Link>
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   );
