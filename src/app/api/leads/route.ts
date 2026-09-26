@@ -10,6 +10,8 @@ export async function POST(request: Request) {
     const payload = {
       name: body.name || '',
       email: body.email || '',
+      country: body.country || '',
+      countryCode: body.countryCode || '',
       phone: body.phone || '',
       company: body.company || '',
       service: body.service || '',
