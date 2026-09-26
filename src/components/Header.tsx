@@ -285,17 +285,14 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/homepage"
-            className="flex items-center gap-2.5 group shrink-0"
+            aria-label="LKG & Company"
+            className="flex items-center shrink-0 group"
           >
             <AppLogo
               src="/assets/images/LKG_Co_Logo-1777466274773.png"
-              size={44}
-              className="transition-transform duration-300 group-hover:scale-105"
+              size={64}
+              className="transition-transform duration-300 group-hover:scale-[1.02]"
             />
-
-            <span className="font-bold text-xl tracking-tight text-foreground hidden sm:block">
-              LKG <span className="text-primary">&amp; Co.</span>
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
