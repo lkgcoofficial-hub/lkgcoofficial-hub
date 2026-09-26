@@ -93,9 +93,9 @@ export default function OurStory() {
       </div>
 
       <div className="container relative mx-auto px-5 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 xl:gap-18">
+        <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 xl:gap-18">
           {/* LEFT — Story identity */}
-          <div className="relative lg:sticky lg:top-28">
+          <div className="relative min-w-0 lg:sticky lg:top-28">
             <div className="max-w-xl">
               {/* Eyebrow */}
               <div className="mb-5 flex items-center gap-2.5">
@@ -160,7 +160,7 @@ export default function OurStory() {
           </div>
 
           {/* RIGHT — Story content */}
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="space-y-5 text-sm leading-7 text-muted-foreground sm:text-[15px] sm:leading-7">
               <p>
                 LKG &amp; Company is being built with a clear ambition: to help
@@ -196,35 +196,36 @@ export default function OurStory() {
             </div>
 
             {/* Direction / execution / growth / evolution */}
-            <div className="relative my-7 grid gap-3 sm:grid-cols-2">
+            <div className="relative my-7 grid min-w-0 gap-3 sm:grid-cols-2">
               {storyCards.map((card, index) => (
                 <div
                   key={card.label}
-                  className="group/card relative overflow-hidden rounded-2xl border border-border bg-card/70 p-4.5 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/45 hover:bg-card hover:shadow-[0_18px_45px_rgba(109,40,217,0.08)] motion-reduce:transition-none"
+                  className="group/card relative min-w-0 rounded-2xl border border-border bg-card/70 p-5 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/45 hover:bg-card hover:shadow-[0_18px_45px_rgba(109,40,217,0.08)] motion-reduce:transition-none"
                 >
                   {/* Moving card accent */}
                   <div
                     aria-hidden="true"
-                    className="absolute left-0 top-0 h-px w-20 bg-gradient-to-r from-primary via-[#9B8ACB] to-[#D4AF37] transition-all duration-500 group-hover/card:w-full"
+                    className="pointer-events-none absolute left-0 top-0 h-px w-20 bg-gradient-to-r from-primary via-[#9B8ACB] to-[#D4AF37] transition-all duration-500 group-hover/card:w-full"
                   />
 
+                  {/* Soft hover glow */}
                   <div
                     aria-hidden="true"
-                    className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#D4AF37]/[0.045] blur-2xl opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+                    className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#D4AF37]/[0.045] blur-2xl opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
                   />
 
-                  <div className="relative">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary transition-colors duration-300 group-hover/card:text-[#D4AF37]">
+                  <div className="relative min-w-0">
+                    <div className="flex min-w-0 items-center justify-between gap-4">
+                      <span className="min-w-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary transition-colors duration-300 group-hover/card:text-[#D4AF37]">
                         {card.label}
                       </span>
 
-                      <span className="text-[10px] text-muted-foreground/50">
+                      <span className="shrink-0 text-[10px] text-muted-foreground/50">
                         0{index + 1}
                       </span>
                     </div>
 
-                    <p className="mt-2 text-sm leading-6 text-foreground">
+                    <p className="mt-2 min-w-0 break-words text-sm leading-6 text-foreground">
                       {card.text}
                     </p>
                   </div>
