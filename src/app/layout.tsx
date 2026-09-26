@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || 'https://lkgco.vercel.app'
   ),
-  title: 'LKG & Co. - Strategy, Technology & Transformation',
+  title: 'LKG & Company | Strategy, Technology & Transformation',
   description:
-    'LKG & Co. is a professional services and technology firm delivering strategy, technology, digital transformation, and talent solutions for ambitious organizations.',
+    'LKG & Company is a strategy, technology and transformation firm delivering IT consulting, digital solutions, software development, digital growth, AI, and technology services for businesses.',
   icons: {
     icon: [{ url: '/favicon.ico', type: 'image/x-icon' }],
   },
