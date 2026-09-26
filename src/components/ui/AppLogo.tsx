@@ -16,14 +16,15 @@ interface AppLogoProps {
 const AppLogo = memo(function AppLogo({
   src = '/assets/images/LKG_Co_Logo-1777466274773.png',
   iconName = 'SparklesIcon',
-  size = 64,
+  size = 80,
   className = '',
   onClick,
   showCompanyName = true,
 }: AppLogoProps) {
   const containerClassName = useMemo(() => {
     const classes = [
-      'flex items-center',
+      'flex',
+      'items-center',
       'shrink-0',
     ];
 
@@ -45,14 +46,14 @@ const AppLogo = memo(function AppLogo({
 
   return (
     <div className={containerClassName} onClick={onClick}>
-      {/* LKG logo mark */}
+      {/* LKG Logo Mark */}
       {src ? (
         <AppImage
           src={src}
           alt="LKG & Company"
           width={size}
           height={size}
-          className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
+          className="h-16 w-16 shrink-0 object-contain sm:h-[68px] sm:w-[68px]"
           priority
           unoptimized={src.endsWith('.svg')}
         />
@@ -60,11 +61,11 @@ const AppLogo = memo(function AppLogo({
         <AppIcon
           name={iconName}
           size={size}
-          className="h-11 w-11 shrink-0 sm:h-12 sm:w-12"
+          className="h-16 w-16 shrink-0 sm:h-[68px] sm:w-[68px]"
         />
       )}
 
-      {/* Company name */}
+      {/* LKG & Company */}
       {showCompanyName && (
         <span className="ml-2.5 whitespace-nowrap text-[20px] font-semibold tracking-[-0.035em] sm:text-[21px]">
           <span className="text-[#29253A]">LKG</span>
