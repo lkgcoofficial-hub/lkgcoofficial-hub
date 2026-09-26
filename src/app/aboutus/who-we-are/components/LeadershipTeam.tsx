@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 const people = [
   {
     initials: 'AS',
+    image: '/api/team-photo?person=ayush-singh',
     name: 'Ayush Kumar Singh',
     role: 'Founder & CEO',
     type: 'Leadership',
@@ -14,6 +15,7 @@ const people = [
   },
   {
     initials: 'SG',
+    image: '/api/team-photo?person=shyam-gupta',
     name: 'Shyam Kumar Gupta',
     role: 'Technology Advisor',
     type: 'Advisory',
@@ -23,6 +25,7 @@ const people = [
   },
   {
     initials: 'RJ',
+    image: '/api/team-photo?person=raj-jaiswal',
     name: 'Raj Jaiswal',
     role: 'Marketing & Finance Advisor',
     type: 'Advisory',
@@ -32,6 +35,7 @@ const people = [
   },
   {
     initials: 'AP',
+    image: '/api/team-photo?person=ayush-pandey',
     name: 'Ayush Pandey',
     role: 'Operations & Development Advisor',
     type: 'Advisory',
@@ -126,7 +130,7 @@ export default function LeadershipTeam() {
           {people.map((person, index) => (
             <article
               key={person.name}
-              className="group/card relative overflow-hidden rounded-2xl border border-border/70 bg-card/40 p-5 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/35 hover:bg-card/70 hover:shadow-[0_20px_55px_rgba(109,40,217,0.09)] motion-reduce:transition-none sm:p-6"
+              className="group/card relative overflow-hidden rounded-2xl border border-border/70 bg-card/40 p-5 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/35 hover:bg-card/70 hover:shadow-[0_20px_55px_rgba(109,40,217,0.09)] motion-reduce:transition-none"
             >
               {/* Animated top accent */}
               <div
@@ -141,8 +145,8 @@ export default function LeadershipTeam() {
               />
 
               <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
-                {/* Photo / portrait */}
-                <div className="group/photo relative mx-auto shrink-0 sm:mx-0">
+                {/* Protected photo presentation */}
+                <div className="group/photo relative mx-auto shrink-0 select-none sm:mx-0">
                   {/* Outer moving gradient ring */}
                   <div
                     aria-hidden="true"
@@ -156,11 +160,24 @@ export default function LeadershipTeam() {
                   />
 
                   {/* Photo frame */}
-                  <div className="relative flex h-[104px] w-[104px] items-center justify-center rounded-full border border-white/70 bg-background p-[3px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-transform duration-500 group-hover/photo:scale-[1.055] motion-reduce:transition-none sm:h-[112px] sm:w-[112px] lg:h-[120px] lg:w-[120px]">
-                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary/[0.10] via-background to-[#D4AF37]/[0.12]">
-                      <span className="text-xl font-semibold tracking-tight text-primary transition-colors duration-500 group-hover/photo:text-[#D4AF37] sm:text-2xl">
-                        {person.initials}
-                      </span>
+                  <div className="relative h-[104px] w-[104px] overflow-hidden rounded-full border border-white/70 bg-background p-[3px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-transform duration-500 group-hover/photo:scale-[1.055] motion-reduce:transition-none sm:h-[112px] sm:w-[112px] lg:h-[120px] lg:w-[120px]">
+                    <div className="relative h-full w-full overflow-hidden rounded-full bg-background">
+                      <img
+                        src={person.image}
+                        alt={`${person.name} — ${person.role}`}
+                        draggable={false}
+                        loading={index < 2 ? 'eager' : 'lazy'}
+                        decoding="async"
+                        className="h-full w-full select-none object-cover transition-transform duration-500 group-hover/photo:scale-110 motion-reduce:transition-none"
+                        onContextMenu={(event) => event.preventDefault()}
+                        onDragStart={(event) => event.preventDefault()}
+                      />
+
+                      {/* Very subtle protective overlay */}
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/30"
+                      />
                     </div>
                   </div>
 
@@ -209,7 +226,6 @@ export default function LeadershipTeam() {
                     aria-label={`View ${person.name} on LinkedIn`}
                     className="group/link relative mt-4 inline-flex h-10 items-center gap-2 overflow-hidden rounded-xl border border-border/80 bg-background px-4 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/55 hover:text-[#D4AF37] hover:shadow-[0_10px_28px_rgba(212,175,55,0.10)] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/30"
                   >
-                    {/* Gold sweep */}
                     <span
                       aria-hidden="true"
                       className="absolute inset-y-0 -left-16 w-10 -skew-x-12 bg-[#D4AF37]/15 transition-transform duration-500 group-hover/link:translate-x-[180px]"
@@ -241,13 +257,6 @@ export default function LeadershipTeam() {
             </article>
           ))}
         </div>
-
-        {/* Advisory note */}
-        <p className="mt-5 max-w-4xl text-[11px] leading-5 text-muted-foreground">
-          Advisory roles represent professional perspectives contributed to the
-          company and should not be interpreted as full-time employment unless
-          specifically stated.
-        </p>
       </div>
 
       <style jsx>{`
