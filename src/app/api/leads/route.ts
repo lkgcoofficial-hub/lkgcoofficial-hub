@@ -7,30 +7,55 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    const payload = {
+      name: body.name || '',
+      email: body.email || '',
+      phone: body.phone || '',
+      company: body.company || '',
+      service: body.service || '',
+      budget: body.budget || '',
+      message: body.message || '',
+      source: body.source || 'Website',
+    };
+
     const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        name: body.name || '',
-        email: body.email || '',
-        phone: body.phone || '',
-        company: body.company || '',
-        service: body.service || '',
-        budget: body.budget || '',
-        message: body.message || '',
-        source: body.source || 'Website',
-      }),
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+      cache: 'no-store',
     });
 
-    const result = await response.json();
+    const responseText = await response.text();
+
+    console.log('Google Apps Script status:', response.status);
+    console.log('Google Apps Script response:', responseText);
+
+    let result: {
+      success?: boolean;
+      message?: string;
+      error?: string;
+    } = {};
+
+    try {
+      result = JSON.parse(responseText);
+    } catch {
+      console.error(
+        'Google Apps Script returned a non-JSON response:',
+        responseText
+      );
+    }
 
     if (!response.ok || !result.success) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unable to save lead.',
+          message:
+            result.error ||
+            result.message ||
+            'Unable to save lead to Google Sheets.',
         },
         { status: 500 }
       );
